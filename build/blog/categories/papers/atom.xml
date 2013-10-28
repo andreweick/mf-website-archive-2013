@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: papers | Mission Focus]]></title>
+  <link href="http://missionfocus.com/blog/categories/papers/atom.xml" rel="self"/>
+  <link href="http://missionfocus.com/"/>
+  <updated>2013-10-28T08:45:35-04:00</updated>
+  <id>http://missionfocus.com/</id>
+  <author>
+    <name><![CDATA[Andy Eick]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Unified Data Integration for Situation Management]]></title>
+    <link href="http://missionfocus.com/blog/unified-data-integration-for-situation-management/"/>
+    <updated>2009-01-01T18:13:00-05:00</updated>
+    <id>http://missionfocus.com/blog/unified-data-integration-for-situation-management</id>
+    <content type="html"><![CDATA[<p><em>Abstract</em></p>
+
+<p><blockquote><p></p></p><p><p>We propose a new solution for data integration and semantic enrichment in support of Situation Management (SIMA). Our solution applies to any modality (e.g. text, images, audio, signals etc.) and embraces the diversity of data sources, types, and models, placing no restrictions on processes, applications, or users. It is database centric and proceeds in stages to address the unified storage of structured data and its semantic enrichment in a way that remains viable in an Ultra-Large Scale systems environment. The result is a layered data integration architecture that can accommodate any kind of data to coherently support the multiplicity of processing required for SIMA.</p></p><p><p></p></blockquote> </p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Unified Architecture for Integrating Intelligence Data]]></title>
+    <link href="http://missionfocus.com/blog/unified-architecture-for-Integrating-intelligence-data/"/>
+    <updated>2009-01-01T18:13:00-05:00</updated>
+    <id>http://missionfocus.com/blog/unified-architecture-for-Integrating-intelligence-data</id>
+    <content type="html"><![CDATA[<p><em>Abstract</em></p>
+
+<p><blockquote><p></p></p><p><p>The principal problem spanning the Intelligence Community today is how to integrate the great variety of disparate data into one single coherent repository of knowledge. Current practice whereby all data-models would be merged into a single âUber-modelâ simply does not work. We require a solution that remains viable in a freely evolving, interdependent collective of human and computational systems, very little of which will ever be under our control. Our approach is database-centric and proceeds in stages. The first addresses the unified storage of the broad spectrum of artifacts existing within the Intelligence Enterprise today regardless of modality or representation. The second builds upon the foundation provided by the first to address the unified storage of structured data and semantic data integration. In both we embrace the diversity of data-models employed throughout the Intelligence Community. The result is a layered data architecture that can accommodate any kind of data without placing restrictions on vocabulary, structure, semantics, or constraints in a way that addresses today’s Intel needs while providing a seamless transition path toward a future of ULS systems imbued with semantic technologies.</p></p><p><p></p></blockquote> </p>
+
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: speaking | Mission Focus]]></title>
+  <link href="http://missionfocus.com/blog/categories/speaking/atom.xml" rel="self"/>
+  <link href="http://missionfocus.com/"/>
+  <updated>2013-10-28T08:42:46-04:00</updated>
+  <id>http://missionfocus.com/</id>
+  <author>
+    <name><![CDATA[Andy Eick]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[NAB Military and Government Summit]]></title>
+    <link href="http://missionfocus.com/blog/nab-military-and-government-summit/"/>
+    <updated>2012-12-04T15:22:00-05:00</updated>
+    <id>http://missionfocus.com/blog/nab-military-and-government-summit</id>
+    <content type="html"><![CDATA[<p>See Dr. Yoakum-Stover present the keynote for <a href="http://www.nabshow.com/2013/iitc/">“Intelligence in the Cloud”</a> a one day workshop presented by the National Association of Broadcasters .</p>
+
+<p>Abstract:
+<blockquote><p>What’s a working definition of “cloud computing” and related terminology for today’s workshop? What are the unique attributes of cloud computing that should benefit the missions of Military and Government agencies charged with managing large quantities of sensitive multimedia data?</p></blockquote></p>
+
+<p>Mr. Eick will also be presenting on a panel to discuss “Identifying Common Challenges” between commercial and government clouds.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Big Data Conference]]></title>
+    <link href="http://missionfocus.com/blog/big-data-conference/"/>
+    <updated>2012-05-08T15:30:00-04:00</updated>
+    <id>http://missionfocus.com/blog/big-data-conference</id>
+    <content type="html"><![CDATA[<p>See Dr. Yoakum-Stover present “Head in the Clouds, Feet in the Dirt” at the <a href="http://itevent.net/big-data-conference-2012/">Big Data Conference</a> in Arlington, VA.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Oak Ridge National Labs]]></title>
+    <link href="http://missionfocus.com/blog/oak-ridge-national-labs/"/>
+    <updated>2012-02-11T07:20:00-05:00</updated>
+    <id>http://missionfocus.com/blog/oak-ridge-national-labs</id>
+    <content type="html"><![CDATA[<p><a href="http://imintel.org">We</a> gave a seminar at <a href="http://ornl.gov">Oak Ridge National Labs</a> a few weeks ago on our work with <a href="http://www.ornl.gov/ornlhome/calendar/calendar_full.cfm?Id=5104">large data and cloud computing</a>.  The seminar was well attended and the discussions were thought provoking.</p>
+
+<p>Abstract from the seminar.</p>
+
+<p><blockquote><p></p></p><p><p>The Conceptual Underpinnings for Ultra-Large Scale, Unified Data-space Management</p></p><p><p>Dr. Suzanne Yoakum-Stover, Ph.D. and M. Andrew Eick, Institute for Modern Intelligence and Mission Focus Inc., Alexandria, Va.<br/>Computational Sciences and Engineering Division Seminar</p></p><p><p><strong>Abstract</strong><br/>A Data-space system seeks to develop a means to ingest structured and unstructured data of any format into a unified data store. Current, modern approaches to data base management limits modification of the data model or use of the data outside of its model.</p></p><p><p>Ultra-Large Scale (ULS) Data-space infrastructure is a technology stack with universal storage layers for: 1) unstructured data; 2) structured data; and 3) data/knowledge models. A fourth layer represents the means by which one can look into this Unified Data-space according to a chosen perspective or view to the data. The concept key to overcoming repetitive data integration is to unify the data without integrating it.</p></p><p><p>The solution developed to meet the minimal set of universal artifacts to describe structured data that could be used to display or capture data from any model is called the Data Description Framework (DDF). DDF is an abstraction over models that take data and semantics ingested from any number of silos and implements these within the storage model of choice. DDF seeks to minimize transformation of data, and instead, decouples data from models and models from storage schema. DDF avoids integrating or harmonizing data models up front. The native data and semantics become one unified framework; complete and undistorted. Upon this a whole new species of applications can be built using unified data without ever having to engage in the onerous task of data model harmonization.</p></blockquote></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Speaking at the 2011 DGI Conference]]></title>
+    <link href="http://missionfocus.com/blog/speaking-at-the-2011-dgi-conference/"/>
+    <updated>2012-01-31T16:44:00-05:00</updated>
+    <id>http://missionfocus.com/blog/speaking-at-the-2011-dgi-conference</id>
+    <content type="html"><![CDATA[<p>2011 DGI Conference</p>
+
+<p><blockquote><p>All data-intensive endeavors share the same problem: Our assets, which include data, information, and knowledge, as well as analytics, tools, and applications, are fractured in physically and semantically disparate systems. In short, our data enterprise is broken. As a result, insight is obscured and operations are impeded by our inability to fully search, explore, enrich and exploit those assets. In order to understand the full picture, we must break the data barriers. In this presentation, Dr. Yoakum-Stover describes a practical, Ultra-Large Scale systems solution for unified data storage and processing - one that addresses both the scale and diversity of data and processing without imposing constraints on what data must be or how they should be used. She describes how the core innovation underlying the approach - the Artifact, Data, and Model Description Frameworks (AD&amp;M DFs), can accommodate all data, information, and knowledge regardless of modality, structure, and semantics without data loss or distortion, and in particular how geospatial and temporal information are handled. Her talk concludes with a discussion of an instance of the complete system, the Data and Processing Syndicate, built on cloud compute and storage technology (HDFS, Map Reduce, Accumulo) that her engineering team is currently building for the US National Geospatial-Intelligence Agency.</p></blockquote></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IMI to speak at NAB in Las Vegas]]></title>
+    <link href="http://missionfocus.com/blog/imi-to-speak-at-nab-in-las-vegas/"/>
+    <updated>2011-04-13T15:18:00-04:00</updated>
+    <id>http://missionfocus.com/blog/imi-to-speak-at-nab-in-las-vegas</id>
+    <content type="html"><![CDATA[<p>See Dr. Yoakum-Stover on April 13, 2011 at the <a href="http://expo.nabshow.com/mynabshow2011/public/SessionDetails.aspx?FromPage=nz_ALSessionSearch.aspx&amp;SessionID=1166">NAB Show</a> in Las Vegas, NV.</p>
+
+<p><blockquote><p>The commercial sector is rapidly building massive data centers to carry the load created by ever-increasing consumer needs.  Over the past decade, much has been learned about data storage and management.  A panel of expertx discusses ways commercial data is being ingested, secured and disseminated efficiently and effectively.</p></blockquote></p>
+
+]]></content>
+  </entry>
+  
+</feed>
