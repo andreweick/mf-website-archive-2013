@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Mission Focus]]></title>
+  <link href="http://missionfocus.com/atom.xml" rel="self"/>
+  <link href="http://missionfocus.com/"/>
+  <updated>2013-10-28T08:45:35-04:00</updated>
+  <id>http://missionfocus.com/</id>
+  <author>
+    <name><![CDATA[Andy Eick]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[JavaCV on CentTOS 6]]></title>
+    <link href="http://missionfocus.com/blog/javacv-on-centtos-6/"/>
+    <updated>2013-10-28T08:41:00-04:00</updated>
+    <id>http://missionfocus.com/blog/javacv-on-centtos-6</id>
+    <content type="html"><![CDATA[<h1 id="using-javacv-on-centos-64">Using JavaCV on CentOS 6.4</h1>
+
+<p><a href="https://code.google.com/p/javacv/">JavaCV</a> is a “Java interface to
+<a href="http://opencv.org/">OpenCV</a> and more”. OpenCV is the de facto standard
+of computer vision software enabling facial recognition, motion
+detection, general object detection to run over images. JavaCV
+incorporates with other technologies like <a href="http://www.ffmpeg.org/">ffmpeg</a> allowing
+the same computer vision algorithms to intake videos.</p>
+
+<p>If Java is language of choice, or the JVM, Java Bindings are used
+to interact with c/c++ libraries like OpenCV and ffmpeg. JavaCV provides all the jars
+pre-built including a jar that contains .so files, shared object files,
+for the various platforms, Mac, Linux and Windows. The <em>intention</em> is to
+not require a system level install of the OpenCV libraries.</p>
+
+<p>CentOS 6.4 was unable to find the
+shared object files. JavaCV loaded the .so files from the
+provided jar and dynamically made the jnilib*.so files. Unfortunately
+the <a href="https://www.gnu.org/software/libc/">libc</a> version provided with
+CentOS 6.4 is below the version the provided .so files were built for and the linking operation failed.
+To see what version of libc is installed, <code>ldd --version</code>. In this case 2.12 and the stack traces looked like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Exception in thread "main" java.lang.UnsatisfiedLinkError: no jniopencv_objdetect in java.library.path
+</span><span class="line">        at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1681)
+</span><span class="line">        at java.lang.Runtime.loadLibrary0(Runtime.java:840)
+</span><span class="line">        at java.lang.System.loadLibrary(System.java:1047)
+</span><span class="line">        at com.googlecode.javacpp.Loader.loadLibrary(Loader.java:701)
+</span><span class="line">        at com.googlecode.javacpp.Loader.load(Loader.java:578)
+</span><span class="line">        at com.googlecode.javacpp.Loader.load(Loader.java:532)
+</span><span class="line">        at com.googlecode.javacv.cpp.opencv_objdetect.&lt;clinit&gt;(opencv_objdetect.java:91)
+</span><span class="line">        at java.lang.Class.forName0(Native Method)
+</span><span class="line">        at java.lang.Class.forName(Class.java:266)
+</span><span class="line">        at com.googlecode.javacpp.Loader.load(Loader.java:553)
+</span><span class="line">        at Smoother.main(Smoother.java:6)
+</span><span class="line">Caused by: java.lang.UnsatisfiedLinkError: /tmp/javacpp8883169523366/libjniopencv_objdetect.so: /lib64/libc.so.6: version `GLIBC_2.14' not found (required by /tmp/javacpp8883169523366/libjniopencv_objdetect.so)
+</span><span class="line">        at java.lang.ClassLoader$NativeLibrary.load(Native Method)
+</span><span class="line">        at java.lang.ClassLoader.loadLibrary0(ClassLoader.java:1750)
+</span><span class="line">        at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1646)
+</span><span class="line">        at java.lang.Runtime.load0(Runtime.java:787)
+</span><span class="line">        at java.lang.System.load(System.java:1022)
+</span><span class="line">        at com.googlecode.javacpp.Loader.loadLibrary(Loader.java:690)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Try out the provided demo on CentOS 6.4</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/imintel/javacv-on-centos-6.git &amp;&amp; cd javacv-on-centos-6/demo
+</span><span class="line">javac -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother.java
+</span><span class="line">java -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This produces a similar stack trace from above.</p>
+
+<p>To fix these errors, compile javacv-linux-x86_64.jar and OpenCV libraries on CentOS 6.4.</p>
+
+<h3 id="building-opencv">Building OpenCV</h3>
+
+<p><strong>Ensure JAVA_HOME defined.</strong> Something like <code>/usr/lib/jvm/java</code></p>
+
+<ol>
+  <li>
+    <p>Install system packages</p>
+
+    <pre><code>     sudo yum groupinstall "Development Tools"
+     sudo yum install cmake
+     sudo yum install ant
+</code></pre>
+  </li>
+  <li>
+    <p>Clone the OpenCV repository</p>
+
+    <pre><code>      git clone https://github.com/Itseez/opencv.git &amp;&amp; cd opencv
+</code></pre>
+  </li>
+  <li>
+    <p>Checkout desired release</p>
+
+    <pre><code>      git checkout 2.4.6.2
+</code></pre>
+  </li>
+  <li>
+    <p>Make release directory</p>
+
+    <pre><code>      mkdir release &amp;&amp; cd release
+</code></pre>
+  </li>
+  <li>
+    <p>Generate make file, make and install</p>
+
+    <p>This takes some time depending on the machine and what 3rd party libraries are built.</p>
+
+    <pre><code>      cmake -DBUILD_SHARED_LIBS=ON -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/ ..
+      make
+      sudo make install
+</code></pre>
+  </li>
+  <li>
+    <p>Ensure library files exist</p>
+
+    <pre><code>      ls /usr/lib/*opencv*
+</code></pre>
+  </li>
+</ol>
+
+<h3 id="building-javacv">Building JavaCV</h3>
+
+<ol>
+  <li>
+    <p>Install <a href="http://maven.apache.org/download.cgi">maven</a> if needed.</p>
+  </li>
+  <li>
+    <p>Clone the JavaCV repository</p>
+
+    <pre><code>		git clone https://code.google.com/p/javacv/ &amp;&amp; cd javacv
+</code></pre>
+  </li>
+  <li>
+    <p>Checkout the latest release tag, 0.6 at this time.</p>
+
+    <pre><code>     git checkout 0.6
+</code></pre>
+  </li>
+  <li>
+    <p>Build the project</p>
+
+    <pre><code>		mvn install
+</code></pre>
+
+    <p>In step 3 c++ compiler commands execute and pick up on the libraries built in the “Building 	OpenCV” step.</p>
+  </li>
+  <li>
+    <p>Copy the built jar</p>
+
+    <pre><code>     cp target/javacv-linux-x86_64.jar PATH_TO_DEMO_REPOSITORY/
+</code></pre>
+  </li>
+</ol>
+
+<h3 id="using-the-jar-built-from-source">Using the jar built from source</h3>
+
+<p>Run the same test commands from above</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">javac -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother.java
+</span><span class="line">java -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The correctly linked libjni file path prints.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/tmp/javacpp14551117426304/libjniopencv_objdetect.so</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The provided Smoother.java file attempts to load the shared library and print the path.
+To get started with JavaCV take a look at their <a href="https://code.google.com/p/javacv/wiki/OpenCV2_Cookbook_Examples">cookbook</a>.</p>
+
+<p>You can see the demo files on our <a href="https://github.com/imintel/javacv-on-centos-6">Github repo</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[D3: Multiple Brushes]]></title>
+    <link href="http://missionfocus.com/blog/d3-multiple-brushes/"/>
+    <updated>2013-10-16T10:50:00-04:00</updated>
+    <id>http://missionfocus.com/blog/d3-multiple-brushes</id>
+    <content type="html"><![CDATA[<p>One of the useful features <a href="http://d3js.org/">D3</a> offers is a <a href="https://github.com/mbostock/d3/wiki/SVG-Controls">dynamic brush</a> that allows one to select a portion of a scale. If desired, SVG elements within the “brushed” range of the can then be manipulated. For an in-house project, we wanted to select multiple time ranges using brushes. This great <a href="http://bl.ocks.org/mbostock/1667367">example</a> from D3’s creator made implementing one brush simple (if you haven’t previously implemented a singular brush, you’ll probably want to give the example a look before continuing). However, when we tried to add another brush to the display the brushes weren’t usable, and there didn’t seem to be any D3 documentation about how to achieve the  functionality. There also didn’t seem to be any other examples online with more than one brush. Since it was a feature we needed, we experimented. In the end, by making two simple DOM alterations to the brushes, we were able to create multiple brushes on the same scale. </p>
+
+<p>The brush exposes certain events: ‘brushstart’ when it is started, a series of ‘brush’ events while it is being altered, and a ‘brushend’ event when the alterations end (for more on this see the documentation link above). To provide these events, the brush captures mouse events within its active area (the SVG DOM element in which the brush can be drawn, dragged, and resized), processes the mouse events, and outputs them as one of the three events provided by the brush. </p>
+
+<p><img src="http://missionfocus.com/assets/d3-multiple-brushes/figure1.png" width="675" /></p>
+
+<p>This is sufficient for one brush because every click event is captured by the first brush created. Determining whether a user mouse event should create a new brush or alter an existing brush has to be accomplished manually.</p>
+
+<p>Looking at a brush in the DOM, we realized the brush would respond to mouse events if its pointer-events attribute was set to ‘all’. Setting the same attribute to ‘none’ resulted in the brush no longer honoring (and therefore consuming) click events. By adding a simple jQuery click listener to the DOM element that contains the brush, mouse clicks can be examined if the brush isn’t listening to / consuming click events. To make this happen, each time a brush sends a ‘brushend’ event, the brush’s pointer-events attribute is set to none. That means the brush won’t swallow the next click event, and the event will occur in the jQuery click listener for the active region containing the brush. At this point, logic occurs to determine if the user is holding down the meta-key while clicking. If this is the case, a new brush is created and the old brush remains deactivated. If the user is performing a click without the meta-key, the brush’s pointer-events attribute is set back to ‘all’ and it will continue consuming click events and updating its size/location accordingly.</p>
+
+<p>But that wasn’t the last piece of the puzzle. Simply setting the brush’s ‘pointer-events’ attribute didn’t actually have the desired effect of activating and deactivating the brush. It wasn’t until accidentally stumbling across manually assigning the brush an id attribute that the brushes would activate and deactivate accordingly. Since no mention of id is made in the brush documentation, it’s unclear whether this is an intended or unintended feature in the inner workings of the brush.</p>
+
+<p>While this surely isn’t the most elegant solution to implementing multiple brushes, it seems the best until the brush’s functionality is extended.</p>
+
+<p>You can see a working example below:</p>
+
+<p><a href="../../assets/d3-multiple-brushes/index.html">D3 Multiple Brushes Example</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Reinvent Transit Hackathon]]></title>
+    <link href="http://missionfocus.com/blog/reinvent-transit-hackathon/"/>
+    <updated>2013-04-01T10:44:00-04:00</updated>
+    <id>http://missionfocus.com/blog/reinvent-transit-hackathon</id>
+    <content type="html"><![CDATA[<p>Mission Focus is a sponsor for <a href="http://reinventtransit.com/">Reinvent Transit</a>, a gathering and “hackathon” that brings together technologists, makers, and creative problem solvers to better all forms of transportation in Baltimore. The event will run from Friday April 5th through Sunday April 7th at Betamore, the recently-opened urban campus for technology and entrepreneurship located in Federal Hill.</p>
+
+<p>Over the weekend, groups of software developers, designers, and citizens will be taking ideas that have been crowdsourced from the local community and building applications and prototypes that help solve some transportation-related problems and address the needs of Baltimore’s bus riders, cyclists, drivers, and pedestrians. After hearing about transit experiences from a panel of speakers on Friday evening, participants will form teams on Saturday morning and will work collaboratively over the next 24 hours on their solutions. By Sunday evening, they’ll compete to win prizes by presenting a demo of what they’ve built to a distinguished panel ranging from city transit officials to venture capitalists. While technology will be a likely tool used over the weekend, creative non-technical solutions are also of interest.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[NAB Military and Government Summit]]></title>
+    <link href="http://missionfocus.com/blog/nab-military-and-government-summit/"/>
+    <updated>2012-12-04T15:22:00-05:00</updated>
+    <id>http://missionfocus.com/blog/nab-military-and-government-summit</id>
+    <content type="html"><![CDATA[<p>See Dr. Yoakum-Stover present the keynote for <a href="http://www.nabshow.com/2013/iitc/">“Intelligence in the Cloud”</a> a one day workshop presented by the National Association of Broadcasters .</p>
+
+<p>Abstract:</p>
+<blockquote><p>What’s a working definition of “cloud computing” and related terminology for today’s workshop? What are the unique attributes of cloud computing that should benefit the missions of Military and Government agencies charged with managing large quantities of sensitive multimedia data?</p></blockquote>
+
+<p>Mr. Eick will also be presenting on a panel to discuss “Identifying Common Challenges” between commercial and government clouds.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Big Data Conference]]></title>
+    <link href="http://missionfocus.com/blog/big-data-conference/"/>
+    <updated>2012-05-08T15:30:00-04:00</updated>
+    <id>http://missionfocus.com/blog/big-data-conference</id>
+    <content type="html"><![CDATA[<p>See Dr. Yoakum-Stover present “Head in the Clouds, Feet in the Dirt” at the <a href="http://itevent.net/big-data-conference-2012/">Big Data Conference</a> in Arlington, VA.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Oak Ridge National Labs]]></title>
+    <link href="http://missionfocus.com/blog/oak-ridge-national-labs/"/>
+    <updated>2012-02-11T07:20:00-05:00</updated>
+    <id>http://missionfocus.com/blog/oak-ridge-national-labs</id>
+    <content type="html"><![CDATA[<p><a href="http://imintel.org">We</a> gave a seminar at <a href="http://ornl.gov">Oak Ridge National Labs</a> a few weeks ago on our work with <a href="http://www.ornl.gov/ornlhome/calendar/calendar_full.cfm?Id=5104">large data and cloud computing</a>.  The seminar was well attended and the discussions were thought provoking.</p>
+
+<p>Abstract from the seminar.</p>
+
+<blockquote><p>The Conceptual Underpinnings for Ultra-Large Scale, Unified Data-space Management</p><p>Dr. Suzanne Yoakum-Stover, Ph.D. and M. Andrew Eick, Institute for Modern Intelligence and Mission Focus Inc., Alexandria, Va.<br />Computational Sciences and Engineering Division Seminar</p><p>**Abstract**<br />A Data-space system seeks to develop a means to ingest structured and unstructured data of any format into a unified data store. Current, modern approaches to data base management limits modification of the data model or use of the data outside of its model.</p><p>Ultra-Large Scale (ULS) Data-space infrastructure is a technology stack with universal storage layers for: 1) unstructured data; 2) structured data; and 3) data/knowledge models. A fourth layer represents the means by which one can look into this Unified Data-space according to a chosen perspective or view to the data. The concept key to overcoming repetitive data integration is to unify the data without integrating it.</p><p>The solution developed to meet the minimal set of universal artifacts to describe structured data that could be used to display or capture data from any model is called the Data Description Framework (DDF). DDF is an abstraction over models that take data and semantics ingested from any number of silos and implements these within the storage model of choice. DDF seeks to minimize transformation of data, and instead, decouples data from models and models from storage schema. DDF avoids integrating or harmonizing data models up front. The native data and semantics become one unified framework; complete and undistorted. Upon this a whole new species of applications can be built using unified data without ever having to engage in the onerous task of data model harmonization.</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Speaking at the 2011 DGI Conference]]></title>
+    <link href="http://missionfocus.com/blog/speaking-at-the-2011-dgi-conference/"/>
+    <updated>2012-01-31T16:44:00-05:00</updated>
+    <id>http://missionfocus.com/blog/speaking-at-the-2011-dgi-conference</id>
+    <content type="html"><![CDATA[<p>2011 DGI Conference</p>
+
+<blockquote><p>All data-intensive endeavors share the same problem: Our assets, which include data, information, and knowledge, as well as analytics, tools, and applications, are fractured in physically and semantically disparate systems. In short, our data enterprise is broken. As a result, insight is obscured and operations are impeded by our inability to fully search, explore, enrich and exploit those assets. In order to understand the full picture, we must break the data barriers. In this presentation, Dr. Yoakum-Stover describes a practical, Ultra-Large Scale systems solution for unified data storage and processing - one that addresses both the scale and diversity of data and processing without imposing constraints on what data must be or how they should be used. She describes how the core innovation underlying the approach - the Artifact, Data, and Model Description Frameworks (AD&amp;M DFs), can accommodate all data, information, and knowledge regardless of modality, structure, and semantics without data loss or distortion, and in particular how geospatial and temporal information are handled. Her talk concludes with a discussion of an instance of the complete system, the Data and Processing Syndicate, built on cloud compute and storage technology (HDFS, Map Reduce, Accumulo) that her engineering team is currently building for the US National Geospatial-Intelligence Agency.</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[IMI to speak at NAB in Las Vegas]]></title>
+    <link href="http://missionfocus.com/blog/imi-to-speak-at-nab-in-las-vegas/"/>
+    <updated>2011-04-13T15:18:00-04:00</updated>
+    <id>http://missionfocus.com/blog/imi-to-speak-at-nab-in-las-vegas</id>
+    <content type="html"><![CDATA[<p>See Dr. Yoakum-Stover on April 13, 2011 at the <a href="http://expo.nabshow.com/mynabshow2011/public/SessionDetails.aspx?FromPage=nz_ALSessionSearch.aspx&amp;SessionID=1166">NAB Show</a> in Las Vegas, NV.</p>
+
+<blockquote><p>The commercial sector is rapidly building massive data centers to carry the load created by ever-increasing consumer needs.  Over the past decade, much has been learned about data storage and management.  A panel of expertx discusses ways commercial data is being ingested, secured and disseminated efficiently and effectively.</p></blockquote>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Data and Dirt keynote address]]></title>
+    <link href="http://missionfocus.com/blog/data-and-dirt-keynote-address/"/>
+    <updated>2011-01-03T16:34:00-05:00</updated>
+    <id>http://missionfocus.com/blog/data-and-dirt-keynote-address</id>
+    <content type="html"><![CDATA[<p>Dr. Yoakum-Stover delivered the keynote address at the Information Managers 2010 Executive Symposium.  In the first part of the address, Dr. Stover talks about ULS systems.</p>
+
+<p><a href="http://www.information-management.com/resource-center/?id=10019338">Part 1</a></p>
+
+<p><a href="http://www.information-management.com/resource-center/?id=10019339">Part 2</a></p>
+
+<p><a href="http://www.information-management.com/resource-center/?id=10019340">Part 3</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Data Scientist]]></title>
+    <link href="http://missionfocus.com/blog/the-data-scientist/"/>
+    <updated>2010-12-09T16:24:00-05:00</updated>
+    <id>http://missionfocus.com/blog/the-data-scientist</id>
+    <content type="html"><![CDATA[<p><a href="http://missionfocus.com/about-us/index.html#suzi">Suzi</a>, “The Data Scientist”, and <a href="http://missionfocus.com/about-us/index.html#andy">I</a> are featured in this months <a href="http://www.information-management.com/issues/20_7/data_management_ultra_large_scale_data_databases-10019098-1.html">Information Management Magazine</a>.  We are discussing the technology we are building at <a href="http://missionfocus.com">Mission Focus</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Information Managers 2010 Executive Symposium]]></title>
+    <link href="http://missionfocus.com/blog/information-managers-2010-executive-symposium/"/>
+    <updated>2010-12-06T18:13:00-05:00</updated>
+    <id>http://missionfocus.com/blog/information-managers-2010-executive-symposium</id>
+    <content type="html"><![CDATA[<p>We are going to give the keynote at the <a href="http://www.information-management.com/conferences/top25/">2010 Executive Symposium</a>.  This event brings together the 25 Top Information Managers of 2010 in a live, interactive session highlighting today’s best information managers and people to watch in 2010 and beyond.  This executive event is an opportunity for information management leaders to meet and engage peers and showcase expertise across silos of business and IT. The event will examine creativity in information management, what leadership looks like in the 21st century and thoughts on what’s in store for 2011 and beyond.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Suzanne Yoakum-Stover Among Top 5 Information Managers of the Year]]></title>
+    <link href="http://missionfocus.com/blog/suzanne-yoakum-stover-among-top-5-information-managers-of-the-year/"/>
+    <updated>2010-04-29T18:13:00-04:00</updated>
+    <id>http://missionfocus.com/blog/suzanne-yoakum-stover-among-top-5-information-managers-of-the-year</id>
+    <content type="html"><![CDATA[<p>The Institute for Modern Intelligence (IMI) announced  today that Dr. Suzanne Yoakum-Stover, IMI Executive Director, was named  as one of the top 5 information managers of the year by Information  Management Magazine.</p>
+
+<p>Dr. Yoakum-Stover was recognized for her work creating a practical,  Ultra-Large Scale (ULS) systems solution – a unified dataspace - for  data storage, exploration, enrichment, and exploitation that  accommodates the diversity of data, semantics, and perspectives without  information loss or distortion. Through an innovation that provides a  generic interface to all data, she aims to enable all manner of processing to be put into production coherently within an internet-scale dataspace. Building upon this foundation her mission is to execute a  broad ULS systems research agenda with specific application to  intelligence and ultimately inaugurate what she terms “the new  discipline of Modern Intelligence” - the science and practice of  intelligence at Ultra-Large Scale.  “I was absolutely delighted to be identified as one of the top  information managers of the year. It is an honor that reflects the community’s recognition and growing acceptance of the IMI’s breakthrough  approach for addressing the scale and diversity of data storage,  processing, visualization, and management all within a unified, yet  completely open dataspace.” - Dr. Yoakum-Stover.</p>
+
+<p>For more information, please visit <a href="http://www.imintel.org/">www.imintel.org</a>.</p>
+
+<p><strong>About the Institute for Modern Intelligence (IMI)</strong></p>
+
+<p>The IMI, formed in 2009, is a non-profit research institute  committed to developing the science, practice, and governance of Modern  Intelligence.  IMI is embracing the evolution of the Intelligence  Community from its emerging theoretical foundations to the panoply of  innovative techniques and the implications for organization and  management.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Unified Data Integration for Situation Management]]></title>
+    <link href="http://missionfocus.com/blog/unified-data-integration-for-situation-management/"/>
+    <updated>2009-01-01T18:13:00-05:00</updated>
+    <id>http://missionfocus.com/blog/unified-data-integration-for-situation-management</id>
+    <content type="html"><![CDATA[<p><em>Abstract</em></p>
+
+<blockquote><p>We propose a new solution for data integration and semantic enrichment in support of Situation Management (SIMA). Our solution applies to any modality (e.g. text, images, audio, signals etc.) and embraces the diversity of data sources, types, and models, placing no restrictions on processes, applications, or users. It is database centric and proceeds in stages to address the unified storage of structured data and its semantic enrichment in a way that remains viable in an Ultra-Large Scale systems environment. The result is a layered data integration architecture that can accommodate any kind of data to coherently support the multiplicity of processing required for SIMA.</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Unified Architecture for Integrating Intelligence Data]]></title>
+    <link href="http://missionfocus.com/blog/unified-architecture-for-Integrating-intelligence-data/"/>
+    <updated>2009-01-01T18:13:00-05:00</updated>
+    <id>http://missionfocus.com/blog/unified-architecture-for-Integrating-intelligence-data</id>
+    <content type="html"><![CDATA[<p><em>Abstract</em></p>
+
+<blockquote><p>The principal problem spanning the Intelligence Community today is how to integrate the great variety of disparate data into one single coherent repository of knowledge. Current practice whereby all data-models would be merged into a single âUber-modelâ simply does not work. We require a solution that remains viable in a freely evolving, interdependent collective of human and computational systems, very little of which will ever be under our control. Our approach is database-centric and proceeds in stages. The first addresses the unified storage of the broad spectrum of artifacts existing within the Intelligence Enterprise today regardless of modality or representation. The second builds upon the foundation provided by the first to address the unified storage of structured data and semantic data integration. In both we embrace the diversity of data-models employed throughout the Intelligence Community. The result is a layered data architecture that can accommodate any kind of data without placing restrictions on vocabulary, structure, semantics, or constraints in a way that addresses today&#8217;s Intel needs while providing a seamless transition path toward a future of ULS systems imbued with semantic technologies.</p></blockquote>
+
+]]></content>
+  </entry>
+  
+</feed>

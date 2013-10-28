@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JavaCV on CentTOS 6 - Mission Focus</title>
+  <meta name="author" content="Andy Eick">
+
+  
+  <meta name="description" content="Using JavaCV on CentOS 6.4 JavaCV is a “Java interface to
+OpenCV and more”. OpenCV is the de facto standard
+of computer vision software enabling &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://missionfocus.com/blog/javacv-on-centtos-6/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/fonts/ss-standard/ss-standard.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/fonts/ss-social/ss-social.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="Mission Focus" type="application/atom+xml">
+  
+  <script type="text/javascript">
+    var url = window.location.toString();
+
+    if(url.search("mf.dev") > 0){
+      console.log("on dev site -- not tracking with analytics");  
+    }
+    else {
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-320642-7']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    }
+  </script>
+
+
+
+  
+  <meta name="google-site-verification" content="IlOvbFJ83tbiohPgpGpGCPOPx-RS_FCtQ5zt-pbsZIY" />
+</head>
+
+<body  id="blog"  class="sidebar-footer">
+  <div class="container">
+    <div id="content">
+      
+  
+  
+
+
+<a class="return-link ss-navigateup" href="/blog/">Return to Blog</a>
+      <article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">JavaCV on CentTOS 6</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-28T08:41:00-04:00" pubdate data-updated="true">Oct 28<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1 id="using-javacv-on-centos-64">Using JavaCV on CentOS 6.4</h1>
+
+<p><a href="https://code.google.com/p/javacv/">JavaCV</a> is a “Java interface to
+<a href="http://opencv.org/">OpenCV</a> and more”. OpenCV is the de facto standard
+of computer vision software enabling facial recognition, motion
+detection, general object detection to run over images. JavaCV
+incorporates with other technologies like <a href="http://www.ffmpeg.org/">ffmpeg</a> allowing
+the same computer vision algorithms to intake videos.</p>
+
+<p>If Java is language of choice, or the JVM, Java Bindings are used
+to interact with c/c++ libraries like OpenCV and ffmpeg. JavaCV provides all the jars
+pre-built including a jar that contains .so files, shared object files,
+for the various platforms, Mac, Linux and Windows. The <em>intention</em> is to
+not require a system level install of the OpenCV libraries.</p>
+
+<p>CentOS 6.4 was unable to find the
+shared object files. JavaCV loaded the .so files from the
+provided jar and dynamically made the jnilib*.so files. Unfortunately
+the <a href="https://www.gnu.org/software/libc/">libc</a> version provided with
+CentOS 6.4 is below the version the provided .so files were built for and the linking operation failed.
+To see what version of libc is installed, <code>ldd --version</code>. In this case 2.12 and the stack traces looked like this:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">Exception in thread "main" java.lang.UnsatisfiedLinkError: no jniopencv_objdetect in java.library.path
+</span><span class="line">        at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1681)
+</span><span class="line">        at java.lang.Runtime.loadLibrary0(Runtime.java:840)
+</span><span class="line">        at java.lang.System.loadLibrary(System.java:1047)
+</span><span class="line">        at com.googlecode.javacpp.Loader.loadLibrary(Loader.java:701)
+</span><span class="line">        at com.googlecode.javacpp.Loader.load(Loader.java:578)
+</span><span class="line">        at com.googlecode.javacpp.Loader.load(Loader.java:532)
+</span><span class="line">        at com.googlecode.javacv.cpp.opencv_objdetect.&lt;clinit&gt;(opencv_objdetect.java:91)
+</span><span class="line">        at java.lang.Class.forName0(Native Method)
+</span><span class="line">        at java.lang.Class.forName(Class.java:266)
+</span><span class="line">        at com.googlecode.javacpp.Loader.load(Loader.java:553)
+</span><span class="line">        at Smoother.main(Smoother.java:6)
+</span><span class="line">Caused by: java.lang.UnsatisfiedLinkError: /tmp/javacpp8883169523366/libjniopencv_objdetect.so: /lib64/libc.so.6: version `GLIBC_2.14' not found (required by /tmp/javacpp8883169523366/libjniopencv_objdetect.so)
+</span><span class="line">        at java.lang.ClassLoader$NativeLibrary.load(Native Method)
+</span><span class="line">        at java.lang.ClassLoader.loadLibrary0(ClassLoader.java:1750)
+</span><span class="line">        at java.lang.ClassLoader.loadLibrary(ClassLoader.java:1646)
+</span><span class="line">        at java.lang.Runtime.load0(Runtime.java:787)
+</span><span class="line">        at java.lang.System.load(System.java:1022)
+</span><span class="line">        at com.googlecode.javacpp.Loader.loadLibrary(Loader.java:690)</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Try out the provided demo on CentOS 6.4</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">git clone https://github.com/imintel/javacv-on-centos-6.git &amp;&amp; cd javacv-on-centos-6/demo
+</span><span class="line">javac -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother.java
+</span><span class="line">java -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This produces a similar stack trace from above.</p>
+
+<p>To fix these errors, compile javacv-linux-x86_64.jar and OpenCV libraries on CentOS 6.4.</p>
+
+<h3 id="building-opencv">Building OpenCV</h3>
+
+<p><strong>Ensure JAVA_HOME defined.</strong> Something like <code>/usr/lib/jvm/java</code></p>
+
+<ol>
+  <li>
+    <p>Install system packages</p>
+
+    <pre><code>     sudo yum groupinstall "Development Tools"
+     sudo yum install cmake
+     sudo yum install ant
+</code></pre>
+  </li>
+  <li>
+    <p>Clone the OpenCV repository</p>
+
+    <pre><code>      git clone https://github.com/Itseez/opencv.git &amp;&amp; cd opencv
+</code></pre>
+  </li>
+  <li>
+    <p>Checkout desired release</p>
+
+    <pre><code>      git checkout 2.4.6.2
+</code></pre>
+  </li>
+  <li>
+    <p>Make release directory</p>
+
+    <pre><code>      mkdir release &amp;&amp; cd release
+</code></pre>
+  </li>
+  <li>
+    <p>Generate make file, make and install</p>
+
+    <p>This takes some time depending on the machine and what 3rd party libraries are built.</p>
+
+    <pre><code>      cmake -DBUILD_SHARED_LIBS=ON -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/ ..
+      make
+      sudo make install
+</code></pre>
+  </li>
+  <li>
+    <p>Ensure library files exist</p>
+
+    <pre><code>      ls /usr/lib/*opencv*
+</code></pre>
+  </li>
+</ol>
+
+<h3 id="building-javacv">Building JavaCV</h3>
+
+<ol>
+  <li>
+    <p>Install <a href="http://maven.apache.org/download.cgi">maven</a> if needed.</p>
+  </li>
+  <li>
+    <p>Clone the JavaCV repository</p>
+
+    <pre><code>		git clone https://code.google.com/p/javacv/ &amp;&amp; cd javacv
+</code></pre>
+  </li>
+  <li>
+    <p>Checkout the latest release tag, 0.6 at this time.</p>
+
+    <pre><code>     git checkout 0.6
+</code></pre>
+  </li>
+  <li>
+    <p>Build the project</p>
+
+    <pre><code>		mvn install
+</code></pre>
+
+    <p>In step 3 c++ compiler commands execute and pick up on the libraries built in the “Building 	OpenCV” step.</p>
+  </li>
+  <li>
+    <p>Copy the built jar</p>
+
+    <pre><code>     cp target/javacv-linux-x86_64.jar PATH_TO_DEMO_REPOSITORY/
+</code></pre>
+  </li>
+</ol>
+
+<h3 id="using-the-jar-built-from-source">Using the jar built from source</h3>
+
+<p>Run the same test commands from above</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">javac -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother.java
+</span><span class="line">java -cp javacv-linux-x86_64.jar:javacpp.jar:javacv.jar Smoother</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The correctly linked libjni file path prints.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">/tmp/javacpp14551117426304/libjniopencv_objdetect.so</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The provided Smoother.java file attempts to load the shared library and print the path.
+To get started with JavaCV take a look at their <a href="https://code.google.com/p/javacv/wiki/OpenCV2_Cookbook_Examples">cookbook</a>.</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Andy Eick</span></span>
+
+      
+
+  
+  
+    
+  
+
+
+    </p>
+    
+      <div class="sharing">
+  
+</div>
+
+    
+    <nav class="pagination">
+      
+        <a class="f-left ss-navigateleft" href="/blog/d3-multiple-brushes/" title="Previous Post: D3: Multiple Brushes">D3: Multiple Brushes</a>
+      
+      
+    </nav>
+  </footer>
+</article>
+
+    </div>
+  </div>
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-subtitle">
+  Make It Happen, Move It Forward
+</div>
+
+<ul class="navigation">
+  <li><a href="/about-us">About Us</a></li>
+ 	<li><a href="/office">Our Office</a></li>
+  <li><a href="/jobs">Jobs</a></li>
+  <li><a href="/blog">Blog</a></li>
+  <li><a href="/press">Press</a></li>
+  <li><a href="/contact">Contact</a></li>
+</ul>
+
+
+<p class="copyright">
+  Copyright &copy; 2008 - 2013.
+</p>
+
+    </div>
+  </footer>
+  
+
+
+<script src="/javascripts/retina.js"></script>
+</body>
+</html>

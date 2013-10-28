@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: articles | Mission Focus]]></title>
+  <link href="http://missionfocus.com/blog/categories/articles/atom.xml" rel="self"/>
+  <link href="http://missionfocus.com/"/>
+  <updated>2013-10-28T08:45:35-04:00</updated>
+  <id>http://missionfocus.com/</id>
+  <author>
+    <name><![CDATA[Andy Eick]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[The Data Scientist]]></title>
+    <link href="http://missionfocus.com/blog/the-data-scientist/"/>
+    <updated>2010-12-09T16:24:00-05:00</updated>
+    <id>http://missionfocus.com/blog/the-data-scientist</id>
+    <content type="html"><![CDATA[<p><a href="/about-us/index.html#suzi">Suzi</a>, “The Data Scientist”, and <a href="/about-us/index.html#andy">I</a> are featured in this months <a href="http://www.information-management.com/issues/20_7/data_management_ultra_large_scale_data_databases-10019098-1.html">Information Management Magazine</a>.  We are discussing the technology we are building at <a href="http://missionfocus.com">Mission Focus</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>
